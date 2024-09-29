@@ -88,6 +88,11 @@ void adiciona_vertice(int id, grafo G) {
   empilha(v, G->vertices);
 }
 
+int get_id_vertice(obj c) {
+  vertice v = c; 
+  return v->id;
+}
+
 // remove vertice com id <id> do grafo G e o destroi
 // [deve remover e destruir tambem as arestas incidentes]
 void remove_vertice(int id, grafo G) {
@@ -120,10 +125,6 @@ void remove_vertice(int id, grafo G) {
   printf("Vertice com id: %d foi removido com sucesso! \n", id); 
 }
 
-int get_id_vertice(vertice v) {
-  return v->id;
-}
-
 // cria aresta com id <id> incidente a vertices com
 // ids <u_id> e <v_id> e adiciona ao grafo G
 void adiciona_aresta(int id, int u_id, int v_id, grafo G) {
@@ -150,6 +151,11 @@ void adiciona_aresta(int id, int u_id, int v_id, grafo G) {
   empilha(a, arestas); 
 }
 
+int get_id_aresta(obj c) {
+  aresta a = c;
+  return a->id;
+}
+
 // remove aresta com id <id> do grafo G e a destroi
 void remove_aresta(int id, grafo G) {
   lista arestas = G->arestas;
@@ -163,15 +169,7 @@ void remove_aresta(int id, grafo G) {
     printf("Aresta com o id: %d não foi encontrada e não pode ser removida! \n", id); 
     return; 
   }
-  printf("Aresta com id: ", id, " foi removida com sucesso! \n", id); 
-}
-
-int get_id_aresta(aresta a) {
-  if (!a) {
-    fprintf(stderr, "Erro: Não foi possível pegar o id da aresta, aresta é NULL.\n");
-    return -1;
-  }
-  return a->id;
+  printf("Aresta com id: %d foi removida com sucesso! \n", id); 
 }
 
 //---------------------------------------------------------
