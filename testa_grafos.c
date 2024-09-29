@@ -11,31 +11,31 @@
 #include <stdlib.h>
 
 int main() {
-  
-  // cria grafo vazio
   grafo G = cria_grafo();
-  
-  // le n e adiciona vertices 1..n
+  le_e_adiciona_vertices(&G);
+  le_e_adiciona_arestas(&G);  
+  imprime_grafo(&G);
+  destroi_grafo(&G);
+  return 0;
+}
+
+le_e_adiciona_vertices(grafo *G) {
   int n;
+  printf("Digite a quantidade de vertices: \n");
   scanf("%d", &n); // qtd vertices
-  
-  for (int i = 1; i <= n; ++i)
-    adiciona_vertice(i, G);
-  
-  // le pares u v e adiciona arestas {u,v}
-  // termina quando digitar 0 0
+  for (int i = 1; i <= n; ++i) {
+    adiciona_vertice(i, &G);
+  }
+}
+
+le_e_adiciona_arestas(grafo *G) {
   int id = 1;
   int u, v;
+  printf("Digite os pares de arestas (para finalizar, digite 0 0) \n");
   scanf("%d %d", &u, &v);
   while (u && v) {
-    adiciona_aresta(id, u, v, G);
+    adiciona_aresta(id, u, v, &G);
     ++id;
     scanf("%d %d", &u, &v);
   }
-  
-  // imprime informacoes do grafo e o destroi
-  imprime_grafo(G);
-  destroi_grafo(G);
-  
-  return 0;
 }
