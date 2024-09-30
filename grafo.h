@@ -46,11 +46,21 @@ lista arestas(grafo G);
 //---------------------------------------------------------
 // funcoes para construcao/desconstrucao do grafo:
 
+// le e adiciona a quantidade de vertices fornecidas pelo usuario
+void le_e_adiciona_vertices(grafo G);
+
+// le e adiciona os pares de arestas fornecidas pelo usuario
+void le_e_adiciona_arestas(grafo G);
+
 // cria grafo vazio e o retorna
 grafo cria_grafo();
 
 // destroi grafo G (desaloca toda a memoria)
 void destroi_grafo(grafo G);
+
+void destroi_lista_aresta();
+
+void destroi_lista_vertice();
 
 // cria novo vertice com id <id> e adiciona ao grafo G
 void adiciona_vertice(int id, grafo G);
