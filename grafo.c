@@ -76,22 +76,22 @@ void destroi_grafo(grafo G) {
     return; 
   }
   printf("Destruindo grafo... \n");
+  
   lista arestas = G->arestas; 
-  if (!vazio(arestas)) {
-    printf("Removendo arestas... \n"); 
-    destroi_lista(arestas);
-    printf("Arestas removidas!");
-  }
+  printf("Removendo arestas... \n"); 
+  destroi_lista_aresta(arestas);
+  printf("Arestas removidas! \n");
+  
   lista vertices = G->vertices;
-  if (!vazio(vertices)) {
-    printf("Removendo vertices... \n"); 
-    destroi_lista(vertices);
-    printf("Vertices removidos!");
-  }
+  printf("Removendo vertices... \n"); 
+  destroi_lista_vertice(vertices);
+  printf("Vertices removidos! \n");
+  
   free(G->arestas); 
   free(G->vertices); 
   free(G); 
-  printf("Grafo destruído ");
+  
+  printf("Grafo destruído! \n");
 }
 
 // cria novo vertice com id <id> e adiciona ao grafo G
@@ -225,4 +225,22 @@ void imprime_aresta(aresta e) {
   int u_id = vertice_id(vertice_u(e));
   int v_id = vertice_id(vertice_v(e));
   printf("%d:{%d,%d}", aresta_id(e), u_id, v_id);
+}
+
+void destroi_lista_aresta(lista l) {
+  while (!vazio(l)) {
+    aresta a = desempilha(l);
+    free(a);  
+  }
+}
+
+void destroi_lista_vertice(lista l) {
+  while (!vazio(l)) {
+    vertice v = desempilha(l);
+    while (!vazio(v->fronteira)) {
+      desempilha(v->fronteira);
+    }
+    free(v->fronteira);
+    free(v);
+  }
 }

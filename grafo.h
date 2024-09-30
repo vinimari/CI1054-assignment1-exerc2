@@ -58,6 +58,10 @@ grafo cria_grafo();
 // destroi grafo G (desaloca toda a memoria)
 void destroi_grafo(grafo G);
 
+void destroi_lista_aresta();
+
+void destroi_lista_vertice();
+
 // cria novo vertice com id <id> e adiciona ao grafo G
 void adiciona_vertice(int id, grafo G);
 
