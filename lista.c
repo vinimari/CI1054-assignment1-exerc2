@@ -26,6 +26,16 @@ no primeiro_no(lista l) {
 //---------------------------------------------------------
 // funcoes da lista:
 
+void destroi_lista(lista l) {
+  if (!l) {
+    return;
+  }
+  while (!vazio(l)) {
+    obj c = desempilha(l);
+    free(c);  
+  }
+}
+
 // cria lista vazia e a retorna
 lista cria_lista() {
   lista l = (lista) malloc(sizeof(t_lista));

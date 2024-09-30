@@ -41,6 +41,8 @@ no primeiro_no(lista l);
 //---------------------------------------------------------
 // funcoes da lista:
 
+void destroi_lista();
+
 // cria lista vazia e a retorna
 lista cria_lista();
 

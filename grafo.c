@@ -38,6 +38,27 @@ lista arestas(grafo G) {
 //---------------------------------------------------------
 // funcoes para construcao/desconstrucao do grafo:
 
+void le_e_adiciona_vertices(grafo G) {
+  int n;
+  printf("Digite a quantidade de vertices: \n");
+  scanf("%d", &n); // qtd vertices
+  for (int i = 1; i <= n; ++i) {
+    adiciona_vertice(i, G);
+  }
+}
+
+void le_e_adiciona_arestas(grafo G) {
+  int id = 1;
+  int u, v;
+  printf("Digite os pares de arestas (para finalizar, digite 0 0) \n");
+  scanf("%d %d", &u, &v);
+  while (u && v) {
+    adiciona_aresta(id, u, v, G);
+    ++id;
+    scanf("%d %d", &u, &v);
+  }
+}
+
 // cria grafo vazio e o retorna
 grafo cria_grafo() {
   grafo G = (grafo) malloc(sizeof(t_grafo));
@@ -54,38 +75,34 @@ void destroi_grafo(grafo G) {
     printf("O grafo já está vazio!");
     return; 
   }
-
+  printf("Destruindo grafo... \n");
   lista arestas = G->arestas; 
   if (!vazio(arestas)) {
     printf("Removendo arestas... \n"); 
-    for (no n = primeiro_no(arestas); n; n = proximo(n)) {
-      aresta aresta_removida = desempilha(arestas); 
-      printf("Aresta removida id: %d \n", aresta_removida->id);
-    }
+    destroi_lista(arestas);
+    printf("Arestas removidas!");
   }
-  
   lista vertices = G->vertices;
   if (!vazio(vertices)) {
     printf("Removendo vertices... \n"); 
-    for (no n = primeiro_no(vertices); n; n = proximo(n)) {
-      vertice vertice_removido = desempilha(vertices);
-      printf("Vertice removido id: %d \n", vertice_removido->id);
-    }
+    destroi_lista(vertices);
+    printf("Vertices removidos!");
   }
-
   free(G->arestas); 
   free(G->vertices); 
   free(G); 
+  printf("Grafo destruído ");
 }
 
 // cria novo vertice com id <id> e adiciona ao grafo G
 void adiciona_vertice(int id, grafo G) {
-  vertice v = (vertice) malloc(sizeof(vertice)); 
+  vertice v = (vertice) malloc(sizeof(t_vertice)); 
   if (!v)
     exit(_ERRO_MALLOC_);
   v->id = id; 
-  v->fronteira = NULL;
+  v->fronteira = cria_lista();
   empilha(v, G->vertices);
+  printf("Vertice %d adicionado! \n", id); 
 }
 
 int get_id_vertice(obj c) {
@@ -128,27 +145,29 @@ void remove_vertice(int id, grafo G) {
 // cria aresta com id <id> incidente a vertices com
 // ids <u_id> e <v_id> e adiciona ao grafo G
 void adiciona_aresta(int id, int u_id, int v_id, grafo G) {
+  lista vertices = G->vertices; 
   lista arestas = G->arestas; 
-  vertice v_u = busca_chave(u_id, arestas, get_id_vertice);
+  vertice v_u = busca_chave(u_id, vertices, get_id_vertice);
   if (!v_u) {
-    printf("Não foi possível encontrar o vertice com id: %d a aresta não foi criada! \n", u_id);
+    printf("Não foi possível encontrar o vertice %d, a aresta não foi criada! \n", u_id);
     return;
   }
-  vertice v_v = busca_chave(v_id, arestas, get_id_vertice);
+  vertice v_v = busca_chave(v_id, vertices, get_id_vertice);
   if (!v_v) {
-    printf("Não foi possível encontrar o vertice com id: %d a aresta não foi criada! \n", v_id);
+    printf("Não foi possível encontrar o vertice %d, a aresta não foi criada! \n", v_id);
     return; 
   }
-  aresta a = (aresta) malloc(sizeof(aresta));
+  aresta a = (aresta) malloc(sizeof(t_aresta));
   if (!a) {
     exit(_ERRO_MALLOC_);
   }
   a->id = id; 
-  a->u = u_id;
-  a->v = v_id;
+  a->u = v_u;
+  a->v = v_v;
   empilha(a, v_u->fronteira); 
   empilha(a, v_v->fronteira);
   empilha(a, arestas); 
+  printf("Aresta de %d para %d criada com sucesso! \n", u_id, v_id);
 }
 
 int get_id_aresta(obj c) {
